@@ -1,192 +1,254 @@
+/* Replacing the Win7 CSS with the nicer, darker, less obtrusive OSX theme, with a bugfix on line 106, postion: static */
+
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
-#verticaltabs-splitter {
-    min-width: 3px !important;
-    width: 3px !important;
-    border-top: none !important;
-    border-bottom: none !important;
-    border-left: 1px solid #fcfcfc !important;
-    border-right: 1px solid #fcfcfc !important;
-    background-color: #d6e5f5 !important;
-    margin: 0 0 23px 0 !important;
-    -moz-border-top-colors: none !important;
-    -moz-border-left-colors: none !important;
-    -moz-border-right-colors: none !important;
-    -moz-border-bottom-colors: none !important;
+#nav-bar {
+    box-shadow: none;
+    /* background-image: url('chrome://browser/skin/Toolbar-background-noise.png'), linear-gradient(#D6D6D6, #D3D3D3); */
 }
 
-#main-window[sizemode=normal] #verticaltabs-splitter {
-    margin: 0 0 24px 0 !important;
+#nav-bar:-moz-window-inactive {
+    box-shadow: none;
+    /* background-image: url('chrome://browser/skin/Toolbar-background-noise.png'), linear-gradient(#F2F2F2, #D3D3D3); */
 }
 
+#tab-view-deck {
+    height: 44px !important;
+}
+
+/* Background colour for the tree sidebar (light blue when window is
+   active, grey otherwise) */
 .tabbrowser-tabs {
-    /*margin: 0 !important;*/
-    /*padding: 1px 0px 1px 1px !important;*/
+    margin: 0 !important;
+    padding: 0 !important;
     background: transparent !important;
-    background-color: #fcfcfc !important; /* other Win7 apps seems to use this */
+    background-color: #333 !important;
+}
+.tabbrowser-tabs:-moz-window-inactive {
+    background-color: #333 !important;
 }
 
+.tabbrowser-arrowscrollbox > .arrowscrollbox-scrollbox {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Use the splitter to display the border of .tabbrowser-tabs */
+#verticaltabs-splitter {
+    width: 1px !important;
+    min-width: 1px !important;
+    background-image: none;
+    background-color: #404040;
+}
+#verticaltabs-splitter:-moz-window-inactive {
+    background-color: #868686;
+}
+
+/* Style tabs themselves.  Get rid of most of the initial XUL styling */
 .tabbrowser-tab {
     -moz-box-pack: start;
     -moz-box-flex: 0;
-    -moz-appearance: none ! important;
-    background: transparent ! important;
-
-    border: 1px solid transparent;
-    border-radius: 2.67px 0 0 2.67px;
-
-    margin: 0;
-    padding: 1px 2px 2px 0px;
-
-    /* XXX this height isn't correct, especially on higher dpi settings. */
-    /* but we can force it with a font-size, so it'll be correct */
-    font-size: 12px ! important;
-
-    height: 21px;
-    min-height: 21px;
-    max-height: 21px;
+    -moz-appearance: none !important;
+    background: #333 !important;
+    -moz-border-top-colors: none !important;
+    -moz-border-bottom-colors: none !important;
+    -moz-border-right-colors: none !important;
+    -moz-border-left-colors: none !important;
+    -moz-border-radius: 0 !important;
+    -moz-box-align: stretch !important;
+    margin: 0 !important;
+    padding: 7px 3px 6px !important;
+    height: 31px !important;     /* height including border! */
+    min-height: 31px !important;
+    max-height: 31px !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    text-align: left !important;
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255,0.05) !important;
+    border-bottom: 1px solid rgba(0,0,0,0.15) !important;
 }
 
-.tabbrowser-tab:hover {
-    border-color: gray;
-    background: -moz-linear-gradient(top, #fafbfd, #ebf3fd) repeat-x !important;
+/* remove curvy tab ends */
+.tab-background-middle,
+.tab-background-start,
+.tab-background-end {
+  background-image: none !important;
 }
 
-.tabbrowser-tab[pinned] {
-    position: inherit;
-    background: -moz-linear-gradient(left, gray, #ebf3fd) repeat-y !important;
+.tab-background-start[selected=true]::after,
+.tab-background-start[selected=true]::before,
+.tab-background-start,
+.tab-background-end,
+.tab-background-end[selected=true]::after,
+.tab-background-end[selected=true]::before {
+  display: none;
+}
+
+/* remove curvy tab ends from hovered background tabs */
+.tabbrowser-tab:hover > .tab-stack > .tab-background:not([selected=true]),
+.tabs-newtab-button:hover {
+  background-image: none !important;
+}
+
+/* remove background tab separators */
+#tabbrowser-tabs[movingtab] > .tabbrowser-tab[beforeselected]:not([last-visible-tab])::after,
+.tabbrowser-tab:not([selected]):not([afterselected-visible]):not([afterhovered]):not([first-visible-tab]):not(:hover)::before,
+#tabbrowser-tabs:not([overflow]) > .tabbrowser-tab[last-visible-tab]:not([selected]):not([beforehovered]):not(:hover)::after {
+  background-image: none !important;
 }
 
 .tabbrowser-tab[selected="true"],
 .tabbrowser-tab[multiselect="true"] {
-    /*margin: 0 !important;*/
-    /*padding: 0 0 0 3px !important;*/
-
-    border-color: gray;
-    background: -moz-linear-gradient(top, #ebf4fe, #cfe4fe) repeat-x !important;
-
-    font-weight: normal;
-    text-shadow: none;
+    background: -moz-linear-gradient(top, #A0B0CF, #7386AB) repeat-x !important;
+    background: #222 !important;
+    position: static; /* Fix for jutting out to the side from the rest by 2 px */
 }
+
 .tabbrowser-tab[selected="true"]:-moz-window-inactive,
 .tabbrowser-tab[multiselect="true"]:-moz-window-inactive {
-    border: 1px solid !important;
-    -moz-border-top-colors: #d9d9d9 #fafafb !important;
-    -moz-border-bottom-colors: #d9d9d9 #f0f0f0 !important;
-    -moz-border-left-colors: #d9d9d9 #f8f8f8 !important;
-    -moz-border-right-colors: #d9d9d9 #f8f8f8 !important;
-    background: -moz-linear-gradient(top, #f8f8f8, #e5e5e5) repeat-x !important;
+    background: -moz-linear-gradient(top, #B4B4B4, #8A8A8A) repeat-x !important;
+    background: #222 !important;
 }
 
-.tabbrowser-tab:not([selected="true"]):hover {
-    /*margin: 0 !important;*/
-    /*padding: 0 0 0 3px !important;*/
+.tab-background-start, .tab-background-middle, .tab-background-end {
+    background-color: transparent !important;
 }
 
-.tabbrowser-tab:-moz-lwtheme {
-    color: black;
-    text-shadow: none;
+.tab-content {
+    margin-top: -1px !important;
+    border-width: 0 3px 0 0 !important;
+    -moz-border-image: none !important;
 }
 
-/* Turn mouse cursor into a pointy hand.  This seems to be the
-   standard for link lists like these. */
-.tabbrowser-tab,
-.tab-text {
-    cursor: pointer !important;
+/* Keep the close button at a safe distance from the tab label. */
+.tab-close-button {
+    -moz-image-region: auto !important;
+    display: -moz-box;
+    margin-left: 3px;
+    margin-top: 1px;
+    background-image: url("resource://verticaltabs/skin/osx/closetab.svg") !important;
+    background-position: center right;
+    background-size: contain;
+    background-repeat: no-repeat;
+    list-style-image: none !important;
+    width: 14px;
+    height: 14px;
+    opacity: 0.27;  /* turn black into #b9b9b9 */
+}
+.tab-close-button:active {
+    opacity: 0.46;  /* turn black into #8a8a8a */
+}
+.tabbrowser-tab[selected="true"] .tab-close-button,
+.tabbrowser-tab[multiselect="true"] .tab-close-button {
+    background-image: url("resource://verticaltabs/skin/osx/closetab-white.svg");
+    opacity: 0.8;
+}
+
+.tabbrowser-tab[selected="true"] .tab-close-button:hover,
+.tabbrowser-tab[multiselect="true"] .tab-close-button:hover {
+    opacity: 1;
 }
 
 .tabbrowser-tab:not(:hover):not([selected="true"]) .tab-close-button {
     visibility: collapse !important;
 }
 
-.tab-icon-image {
-    margin: 0px 4px 1px 0px !important;
+/* Always display the favicon at 100% opacity */
+.tabbrowser-tab .tab-icon-image {
+    opacity: 1.0 !important;
 }
 
-/* Keep the close button at a safe distance from the tab label. */
-.tab-close-button {
-    display: -moz-box;
-    margin-left: 3px;
+/* Ensure app tab labels are not too close to the icon. */
+.tab-label[pinned] {
+    margin: 2px 6px !important;
+    position: relative !important;
+}
+
+.tabbrowser-tab[pinned]:before {
+    position: relative !important;
+}
+
+.tabbrowser-tab[pinned][titlechanged] > .tab-stack > .tab-content {
+    background-image: none !important;
+}
+
+.tabbrowser-tab[pinned][titlechanged] .tab-text {
+    color: #F1F1F1 !important;
+}
+
+.tabbrowser-tab[pinned][titlechanged]:after {
+    content: '●' !important;
+    width: 18px;
+    height: 10px;
+    position: absolute !important;
+    color: #29B4FF;
+    line-height: 15px;
+    font-size: 150% !important;
+}
+
+/* Tab label is without special decoration except when selected: then
+   the text is white and bold. */
+.tab-text {
+    font-size: 11px;
+    font-weight: normal !important;
+    color: #BBB !important;
+    text-shadow: none !important;
+    margin-bottom: 1px;
+    text-align: left !important;
+}
+.tabbrowser-tab[selected="true"] .tab-text,
+.tabbrowser-tab[multiselect="true"] .tab-text {
+    font-weight: bold !important;
+    color: #DDD !important;
+    text-shadow: 0 1px #404040 !important;
 }
 
 
 /* Drop indicator for drag'n'drop of tabs */
 .tab-drop-indicator {
-    list-style-image: url("resource://verticaltabs/skin/win7/dropmarker.png");
-    margin-top: -13px !important; /* height of the above image */
+    list-style-image: url("resource://verticaltabs/skin/osx/dropmarker.png");
+    margin-top: -12px !important; /* height of the above image */
     margin-bottom: 0 !important;
 }
 
+/* Tab toolbar styling */
 
-/*** Tab toolbar styling ***/
-
-#browser-border-start {
-margin-bottom: 23px !important;
-}
-
-#TabsToolbar:not(:-moz-lwtheme)  {
-    height: 24px;
-    margin: 0 -3px -1px 0px !important;
-    border-bottom-left-radius: 0px !important;
-    box-shadow: none !important;
-    -moz-appearance: none !important;
-    border-top: 1px solid rgb(160,160,160) !important;
-    border-right: 2px solid !important;
-    -moz-border-right-colors: #fcfcfc rgb(154,154,154) !important;
-    background-color: rgb(207,219,236) !important;
-    background-image: -moz-linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,0)) !important;
-}
-
-#main-window[sizemode=normal] #TabsToolbar:not(:-moz-lwtheme) {
-    margin: 0 -3px 0 -1px !important;
-    border-bottom: 1px solid rgb(154,154,154) !important;
-    border-left: 1px solid rgb(154,154,154) !important;
-    border-bottom-left-radius: 4px !important;
+#TabsToolbar[tabsontop="false"]:not(:-moz-lwtheme),
+#TabsToolbar[tabsontop="false"]:not(:-moz-lwtheme):-moz-window-inactive {
+    background: none;
+    background-color: #4C9ED9;
 }
 
 #verticaltabs-groupbutton {
     /* TODO need icon to symbolize tab group */
     list-style-image: url("chrome://browser/skin/Toolbar.png");
-    -moz-image-region: rect(0, 234px, 18px, 216px);
+    -moz-image-region: rect(0, 280px, 20px, 260px);
 }
 
 
-/* Ensure that content area has a top border */
-#navigator-toolbox::after {
-    visibility: visible !important;
-}
 
+/* Personas */
 
-/*** Addon bar styling ***/
-
-#addon-bar {
-    height: 23px; /* make addonbar the same height as tab toolbar*/
-}
-
-#browser-bottombox {
-    border-left: none !important; /* remove extra line between addon bar and tab toolbar */
-    margin-left: -1px !important;
-}
-
-#main-window[sizemode=normal] #browser-bottombox:not(:-moz-lwtheme),
-#main-window[sizemode=normal] #addon-bar:not(:-moz-lwtheme) {
-    border-bottom-left-radius: 0 !important;
-    border-bottom-right-radius: 4px !important;
-}
-
-#appcontent {
-    border-bottom-right-radius: 4px !important;
+.tabbrowser-tab > .tab-stack > .tab-background > .tab-background-start:-moz-lwtheme-brighttext:not([selected="true"]),
+.tabbrowser-tab > .tab-stack > .tab-background > .tab-background-middle:-moz-lwtheme-brighttext:not([selected="true"]),
+.tabbrowser-tab > .tab-stack > .tab-background > .tab-background-end:-moz-lwtheme-brighttext:not([selected="true"]),
+.tabbrowser-tab > .tab-stack > .tab-background > .tab-background-start:-moz-lwtheme-darktext:not([selected="true"]),
+.tabbrowser-tab > .tab-stack > .tab-background > .tab-background-middle:-moz-lwtheme-darktext:not([selected="true"]),
+.tabbrowser-tab > .tab-stack > .tab-background > .tab-background-end:-moz-lwtheme-darktext:not([selected="true"]) {
+    background-image: none !important;
 }
 
 
 /*** Group related styles ***/
 
-.tabbrowser-tab[verticaltabs-ingroup],
-.tabbrowser-tab[verticaltabs-ingroup]:hover {
-    padding-left: 16px !important;
+.tabbrowser-tab[verticaltabs-ingroup] {
+    padding-left: 20px !important;
 }
 
 .tabbrowser-tab[verticaltabs-group] {
+    padding-top: 1px !important;
 }
 
 .tabbrowser-tab[verticaltabs-group] .tab-close-button {
@@ -194,23 +256,54 @@ margin-bottom: 23px !important;
 }
 
 .tabbrowser-tab[verticaltabs-group] .tab-text {
+    color: #738192 !important;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+    text-shadow: 0 1px #ffffff !important;
+}
+.tabbrowser-tab[selected="true"][verticaltabs-group] .tab-text {
+    color: #ffffff !important;
+    text-shadow: 0 1px #404040 !important;
 }
 
 .verticaltabs-textbox {
-    margin: 0;
+    font-size: 11px;
+    margin: 0 0 0 6px;
 }
 
 .verticaltabs-counter {
     visibility: collapse;
+    font-size: 11px;
+    margin: 0;
+    padding: 0 6px;
+    height: 14px;
+    max-height: 14px;
+    -moz-border-radius: 8px;
+    background-color: #91a0c0;
+    color: #ffffff;
+    font-weight: bold;
+    text-shadow: none;
+}
+.tabbrowser-tab[verticaltabs-collapsed="true"] .verticaltabs-counter {
+    visibility: visible;
+}
+.tabbrowser-tab[selected="true"] .verticaltabs-counter {
+    background-color: #ffffff;
+    color: #91a0c0;
+}
+.verticaltabs-counter:-moz-window-inactive {
+    background-color: #b5b5b5;
+}
+.tabbrowser-tab[selected="true"] .verticaltabs-counter:-moz-window-inactive {
+    background-color: #ffffff;
+    color: #929292;
 }
 
 .verticaltabs-droptarget {
-    border: 2px solid !important;
-    -moz-border-top-colors: #84acdd #f1f7fe !important;
-    -moz-border-bottom-colors: #84acdd #deedfe !important;
-    -moz-border-left-colors: #84acdd #e8f2fe !important;
-    -moz-border-right-colors: #84acdd #e8f2fe !important;
-    background: -moz-linear-gradient(top, #ebf4fe, #cfe4fe) repeat-x !important;
+    border: 2px solid #577bf3 !important; /* not OSX's colour but Firefox's */
+    background: #d0def5 !important;
+    -moz-border-radius: 8px !important;
+    /* TODO avoid increasing the overall height */
 }
 
 .verticaltabs-dropingroup {
@@ -220,62 +313,19 @@ margin-bottom: 23px !important;
 .verticaltabs-droptonewgroup {
     /* TODO need icon to symbolize tab group */
     list-style-image: url("chrome://browser/skin/Toolbar.png");
-    -moz-image-region: rect(0, 234px, 18px, 216px);
+    -moz-image-region: rect(0, 280px, 20px, 260px);
 }
 
 .verticaltabs-twisty {
-    cursor: default !important;
-    margin-left: 1px !important;
-    margin-right: 2px !important;
-    list-style-image: url("resource://verticaltabs/skin/win7/twisty.png");
+    list-style-image: url("resource://verticaltabs/skin/osx/twisty.png");
+    opacity: 0.38;
+    -moz-transition-property: -moz-transform;
+    -moz-transition-duration: .1s;
 }
 .tabbrowser-tab[verticaltabs-collapsed="true"] .verticaltabs-twisty {
-    list-style-image: url("resource://verticaltabs/skin/win7/twisty-collapsed.png");
+    -moz-transform: rotate(-90deg);
 }
 
-
-/*** Link display ***/
-
-.statuspanel-label {
-    -moz-appearance: tooltip !important;
-    margin-right: 0px !important;
-    margin-left: 0px !important;
-    box-shadow: 8px 3px 0 rgba(0,0,0,.18) !important; /* would otherwise display a transparent pixel on the tooltip's corner */
-}
-
-.statuspanel-inner {
-    height: 100% !important;
-}
-
-#main-window[sizemode="normal"]:not([inFullscreen="true"]) .statuspanel-inner {
-    padding-left: 0px !important;
-    padding-right: 0px !important;
-}
-
-statuspanel[mirror]:-moz-locale-dir(ltr),
-statuspanel[mirror]:-moz-locale-dir(rtl) {
-    padding: 0px 6px 0px 0px !important;
-}
-
-statuspanel:-moz-locale-dir(ltr):not([mirror]),
-statuspanel:-moz-locale-dir(rtl):not([mirror]) {
-    padding: 0px 0px 0px 4px !important;
-}
-
-statuspanel[mirror]:-moz-locale-dir(ltr) .statuspanel-inner,
-statuspanel[mirror]:-moz-locale-dir(rtl) .statuspanel-inner {
-    margin-top: 8px !important;
-    margin-bottom: 5px !important;
-    box-shadow: 5px 5px 0 -4px rgba(0,0,0,.18), 5px 5px 0 -3px rgba(0,0,0,.15), 5px 5px 0 -2px rgba(0,0,0,.12), 5px 5px 0 -1px rgba(0,0,0,.09) !important;
-    padding: 0px 0px !important;
-    border-radius: 5.8px !important;
-}
-
-statuspanel:-moz-locale-dir(ltr):not([mirror]) .statuspanel-inner,
-statuspanel:-moz-locale-dir(rtl):not([mirror]) .statuspanel-inner {
-    margin-top: 8px !important;
-    margin-bottom: 5px !important;
-    box-shadow: 5px 5px 0 -4px rgba(0,0,0,.18), 5px 5px 0 -3px rgba(0,0,0,.15), 5px 5px 0 -2px rgba(0,0,0,.12), 5px 5px 0 -1px rgba(0,0,0,.09) !important;
-    padding: 0px 0px !important;
-    border-radius: 5.8px !important;
+.verticaltabs-twisty:active {
+    opacity: 1.0;
 }
